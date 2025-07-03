@@ -1,24 +1,25 @@
 import { useState } from "react";
 import CreateTask from "./components/CreateTask";
+import ViewTasks from "./components/ViewTasks";
 
 function App() {
   const [tasks, setTasks] = useState([]);
   function addTask(task) {
-    setTasks((prevTasks) => [...prevTasks, { ...task, id: Date.now() }]);
+    setTasks((prevTasks) => [
+      { ...task, id: Date.now(), isCompleted: false },
+      ...prevTasks,
+    ]);
+  }
+  function completeTask(id, isCompleted) {
+    const updatedTask = tasks.map((task) => {
+      return task.id === id ? { ...task, isCompleted: isCompleted } : task;
+    });
+    setTasks(updatedTask);
   }
   return (
     <>
       <CreateTask addTask={addTask} />
-      {tasks.length > 0 &&
-        tasks.map((task) => {
-          const { id, title, description } = task;
-          return (
-            <div key={id}>
-              <p>{title}</p>
-              <p>{description}</p>
-            </div>
-          );
-        })}
+      <ViewTasks tasks={tasks} completeTask={completeTask} />
     </>
   );
 }
