@@ -6,10 +6,11 @@ function App() {
   const [tasks, setTasks] = useState([]);
 
   function addTask(task) {
-    setTasks((prevTasks) => [
+    const newTasks = [
       { ...task, id: Date.now(), isCompleted: false },
-      ...prevTasks,
-    ]);
+      ...tasks,
+    ];
+    setTasks(newTasks);
   }
 
   function completeTask(id, isCompleted) {
@@ -24,6 +25,13 @@ function App() {
     setTasks(updatedTasks);
   }
 
+  function updateTask(id, updateTask) {
+    const updatedTasks = tasks.map((task) => {
+      return task.id === id ? { ...updateTask } : task;
+    });
+    setTasks(updatedTasks);
+  }
+
   return (
     <>
       <CreateTask addTask={addTask} />
@@ -31,6 +39,7 @@ function App() {
         tasks={tasks}
         completeTask={completeTask}
         deleteTask={deleteTask}
+        updateTask={updateTask}
       />
     </>
   );

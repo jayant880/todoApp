@@ -1,7 +1,7 @@
 import TaskCard from "./TaskCard";
 import "../styles/ViewTask.css";
 
-function ViewTasks({ tasks, completeTask, deleteTask }) {
+function ViewTasks({ tasks, completeTask, deleteTask, updateTask }) {
   // empty state
   if (tasks.length === 0) {
     return (
@@ -26,6 +26,7 @@ function ViewTasks({ tasks, completeTask, deleteTask }) {
               task={task}
               completeTask={completeTask}
               deleteTask={deleteTask}
+              updateTask={updateTask}
               key={task.id}
             />
           );

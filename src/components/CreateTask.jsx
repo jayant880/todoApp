@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "../styles/CreateTask.css";
 
-const defaultTask = { title: "", description: "" };
+const defaultTask = { title: "", description: "", isCompleted: false };
 
 function CreateTask({ addTask }) {
   const [task, setTask] = useState(defaultTask);
