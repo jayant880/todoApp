@@ -8,6 +8,7 @@ function TaskCard({ task, completeTask, deleteTask, updateTask }) {
 
   function handleCheckbox() {
     completeTask(id, !isCompleted);
+    setEditTask({ ...task, isCompleted: !isCompleted });
   }
 
   function handleDelete() {

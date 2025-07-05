@@ -12,7 +12,7 @@ function App() {
 
   function addTask(task) {
     const newTasks = [
-      { ...task, id: Date.now(), isCompleted: false },
+      { ...task, id: crypto.randomUUID(), isCompleted: false },
       ...tasks,
     ];
     setTasks(newTasks);
