@@ -1,7 +1,8 @@
 import TaskCard from "./TaskCard";
 import "../styles/ViewTask.css";
 
-function ViewTasks({ tasks, completeTask }) {
+function ViewTasks({ tasks, completeTask, deleteTask }) {
+  // empty state
   if (tasks.length === 0) {
     return (
       <div className="empty-state">
@@ -21,7 +22,12 @@ function ViewTasks({ tasks, completeTask }) {
       {tasks.length > 0 &&
         tasks.map((task) => {
           return (
-            <TaskCard task={task} completeTask={completeTask} key={task.id} />
+            <TaskCard
+              task={task}
+              completeTask={completeTask}
+              deleteTask={deleteTask}
+              key={task.id}
+            />
           );
         })}
     </div>

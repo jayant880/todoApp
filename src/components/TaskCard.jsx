@@ -1,9 +1,14 @@
 import "../styles/TaskCard.css";
 
-function TaskCard({ task, completeTask }) {
+function TaskCard({ task, completeTask, deleteTask }) {
   const { id, title, description, isCompleted } = task;
+
   function handleChange() {
     completeTask(id, !isCompleted);
+  }
+
+  function handleDelete() {
+    if (confirm("Are you sure you want to delete this?")) deleteTask(id);
   }
 
   return (
@@ -23,7 +28,7 @@ function TaskCard({ task, completeTask }) {
       <button className="card__button edit">
         <i className="fas fa-edit"></i>
       </button>
-      <button className="card__button delete">
+      <button className="card__button delete" onClick={handleDelete}>
         <i className="fa-solid fa-trash"></i>
       </button>
     </div>
