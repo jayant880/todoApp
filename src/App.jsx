@@ -1,9 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CreateTask from "./components/CreateTask";
 import ViewTasks from "./components/ViewTasks";
+import { loadTaskData, saveTaskData } from "./utils/storage";
 
 function App() {
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState(loadTaskData);
+
+  useEffect(() => {
+    saveTaskData(tasks);
+  }, [tasks]);
 
   function addTask(task) {
     const newTasks = [
