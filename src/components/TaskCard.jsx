@@ -2,7 +2,7 @@ import { useState } from "react";
 import "../styles/TaskCard.css";
 
 function TaskCard({ task, completeTask, deleteTask, updateTask }) {
-  const { id, title, description, isCompleted } = task;
+  const { id, title, description, isCompleted, dueDate } = task;
   const [isEditing, setIsEditing] = useState(false);
   const [editTask, setEditTask] = useState(task);
 
@@ -29,12 +29,43 @@ function TaskCard({ task, completeTask, deleteTask, updateTask }) {
     setEditTask(task);
   }
 
+  // Calculate progress based on due date
+  function calculateProgress() {
+    if (!dueDate) return 0;
+
+    const now = new Date();
+    const due = new Date(dueDate);
+    const created = new Date(
+      task.createdDate || Date.now() - 7 * 24 * 60 * 60 * 1000
+    );
+
+    const totalTime = due.getTime() - created.getTime();
+    const elapsedTime = now.getTime() - created.getTime();
+
+    if (totalTime <= 0) return 100;
+
+    const progress = Math.min(
+      100,
+      Math.max(0, (elapsedTime / totalTime) * 100)
+    );
+    return progress;
+  }
+
+  function getProgressColor(progress) {
+    if (progress < 50) return "#10b981"; // Green
+    if (progress < 75) return "#f59e0b"; // Yellow
+    return "#ef4444"; // Red
+  }
+
+  const progress = calculateProgress();
+  const progressColor = getProgressColor(progress);
+
   return (
     <div className={`card ${isCompleted ? "completed" : ""}`}>
       <input
         type="checkbox"
         name="checkbox"
-        id="checkbox"
+        id={`checkbox-${id}`}
         checked={isCompleted}
         value={isCompleted}
         onChange={handleCheckbox}
@@ -44,6 +75,18 @@ function TaskCard({ task, completeTask, deleteTask, updateTask }) {
           <div className="card__content">
             <p className="content__title">{title}</p>
             <p className="content__description">{description}</p>
+            {dueDate && <p className="content__description">Due: {dueDate}</p>}
+            {dueDate && (
+              <div className="card__progressBar">
+                <div
+                  className="progressBar__meter"
+                  style={{
+                    width: `${progress}%`,
+                    backgroundColor: progressColor,
+                  }}
+                ></div>
+              </div>
+            )}
           </div>
           <button
             className="card__button edit"
@@ -71,6 +114,13 @@ function TaskCard({ task, completeTask, deleteTask, updateTask }) {
               onChange={handleChange}
               value={editTask.description}
               name="description"
+            />
+            <input
+              type="date"
+              className="content__description"
+              onChange={handleChange}
+              value={editTask.dueDate}
+              name="dueDate"
             />
           </div>
           <button className="card__button delete" onClick={handleCancel}>

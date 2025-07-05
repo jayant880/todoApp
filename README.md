@@ -74,6 +74,6 @@ src/
 
 ## 🚧 Future Enhancements
 
-- [ ] Due dates
+- [X] Due dates
 - [ ] Task priority levels
 - [ ] Search and filter functionality
