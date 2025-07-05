@@ -5,7 +5,7 @@ function saveTaskData(tasks) {
 
 function loadTaskData() {
     const stringTasks = localStorage.getItem("Tasks");
-    if (stringTasks === '') return [];
+    if (stringTasks === null || stringTasks.length === 0) return [];
     return JSON.parse(stringTasks);
 }
 
